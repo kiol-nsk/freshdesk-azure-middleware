@@ -16,7 +16,7 @@ else:
   subid = (subid[9:-2])
 
   #Work with DB
-  db = pymysql.connect("127.0.0.1","root","password","cb" )
+  db = pymysql.connect("127.0.0.1","user","password","database" )
   cursor = db.cursor()
   cursor.execute("select s1.vm_name, s1.email, s2.as_time from staff as s1 join schedule as s2 on s1.team_name = s2.team_name where s2.dow = "+str(dow))
   db.close()
