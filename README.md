@@ -1,13 +1,12 @@
-# az-autoshutdown for Python3
-Alternative solution for for "az vm auto-shutdown"
+I continue to reinvent the wheel.
 
-"az vm auto-shutdown -g MyResourceGroup -n MyVm --time 1730" works like a charm untill you should notify someone via email about VM shutdown. Notifications are enabled only if webhook is specified.
+Since freshdesk can't handle schedules and un-assign tickets properly
+Since Azure can't handle "az vm auto-shutdown" without webhooks...
 
-This script **az-autoshutdown.py** provides AzureCP-like experience. In this version I have a schedule and the list of emails in DB when VM should go down.
+This, sort-of middleware, growth.
+Currently this middleware:
+- store department's schedule and vm list in MySQL database
+- enables auto-shutdown for engineers on a shift
+- unassing tickets in freshdesk after the shift
 
-**Prerequirements:**
-- Azure CLI (https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest)
-- (sudo) pip3 install pymysql
-
-**Thanks to:**
-The script is based on the Solution for PowerShell from https://gallery.technet.microsoft.com/scriptcenter/Enable-or-disable-auto-c7837c84
+Each script has separate README
