@@ -1,6 +1,7 @@
 I continue to reinvent the wheel.
 
-Since freshdesk can't handle schedules and un-assign tickets properly
+Since freshdesk can't handle schedules and un-assign tickets properly...
+
 Since Azure can't handle "az vm auto-shutdown" without webhooks...
 
 This, sort-of middleware, growth.
