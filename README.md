@@ -40,25 +40,25 @@ Log level might be decreased by commenting/removing print()
 # Database
 Solution relys on MySQL Database (any DB can be used)
 
-CREATE DATABASE <db_name>;
-GRANT ALL PRIVILEGES ON *.* TO '<db_user>' @'%';
+    CREATE DATABASE <db_name>;
+    GRANT ALL PRIVILEGES ON *.* TO '<db_user>' @'%';
+    
+    CREATE TABLE staff (
+    vm_name VARCHAR(30) PRIMARY KEY NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    team_name VARCHAR(30) NOT NULL,
+    as_enabled VARCHAR(1),
+    flag VARCHAR(30),
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+    
+    create table schedule (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    team_name VARCHAR(30) NOT NULL,
+    dow INT(1),
+    shift VARCHAR(1),
+    as_time INT(4),
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
  
-CREATE TABLE staff (
-vm_name VARCHAR(30) PRIMARY KEY NOT NULL,
-email VARCHAR(50) NOT NULL,
-team_name VARCHAR(30) NOT NULL,
-as_enabled VARCHAR(1),
-flag VARCHAR(30),
-reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
- 
-create table schedule (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-team_name VARCHAR(30) NOT NULL,
-dow INT(1),
-shift VARCHAR(1),
-as_time INT(4),
-reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
 Freshdesk requires 'AgentID', this value is stored in 'staff' table, column 'flag'
