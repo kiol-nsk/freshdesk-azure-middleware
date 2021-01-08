@@ -12,6 +12,7 @@ today = time.strftime("%Y%m%d")
 sys.stdout = open('/home/username/az-log/unassign.log-'+ today, 'w')
 
 #Permanent data
+#Yes, it's not secure to store hardcoded passwords in script.  
 gid = 'dc_cb_jumpbox'
 subid = (subid[9:-2])
 db_ip = "127.0.0.1"
@@ -27,7 +28,7 @@ if sys.argv[1] == 'D':
   print (dow)
 elif sys.argv[1] == 'N':
   dow = int(subprocess.getoutput("date +%u")) - 1
-#  '-1' because we are running script the next day, when shift is over 
+#  '-1' because we run script the next day, when shift is over. The next 'if' is for Monday.
   if dow ==0:
     dow = 7
   else:
@@ -46,7 +47,7 @@ if go == False:
   #work with DB
   db = pymysql.connect(str(db_ip),str(db_user),str(db_pass),str(db_name) )
   cursor = db.cursor()
-  #we are gerring ONLY engineers from the last shift
+  #we are getting ONLY engineers from the last shift
   #preliminary schedule 11:30PM after DayShift, 9AM after Night shift
   cursor.execute("select s1.vm_name, s1.flag from staff as s1 join schedule as s2 on s1.team_name = s2.team_name where s2.dow = "+str(dow)+" and s2.shift ='"+sys.argv[1]+"'")
   db.close()
@@ -56,13 +57,14 @@ if go == False:
   data = cursor.fetchall()
   print (data)
   for row in data:
-    #first we need the list of VMs that runnung after shift-end
+    #first we need the get status of VMs after shift-end
     query = ('''az vm list -g '''+str(gid) + ''' -d --query "[?name==\'''' +str(row[0]) + '''\']" | egrep \'powerState\' ''')   
     print (query)  
     execution = subprocess.getoutput(query)
     print(execution)
     if execution == '''    "powerState": "VM deallocated",''':
       print('VM deallocated')
+      #In our case tickets have 5-dig number, adjust line below if necessary
       fresh_call = ('''curl -s -u '''+str(fd_key)+''':X -H \'authority: domain.freshdesk.com\' \"https://domain.freshdesk.com/api/v2/search/tickets?query=%22agent_id:'''+str(row[1]) +'''%20AND%20(status:2%20OR%20status:8)%22\" --compressed | grep -E -o \"\\"id\\":.{0,5}\"''')
       print(fresh_call)
       fresh_execution = subprocess.getoutput(fresh_call)
@@ -81,3 +83,7 @@ if go == False:
     else:
       print('online')
   print('Script execution end time:',subprocess.getoutput("date"))
+
+#exception for logged off azure account
+else:
+  print(subid)
