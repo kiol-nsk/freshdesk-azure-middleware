@@ -15,7 +15,7 @@ if go == True:
 else:
   #find some permanent values
   dow = subprocess.getoutput("date +%u")
-  gid = 'dc_cb_jumpbox'
+  gid = 'guid_here'
   subid = (subid[9:-2])
 
   #Work with DB
